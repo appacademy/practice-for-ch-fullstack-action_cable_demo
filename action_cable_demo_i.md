@@ -69,15 +69,15 @@ Some notes:
   However, a `session` getter isn't defined for `ApplicationCable::Connection`,
   so you need to access `session` via the `request` object.
   
-  (*Note:* you actually have access to this `request` object in your controllers
-  as well. Within a controller action, `request.session == session` will return
-  `true`. [Read more here.][request])
+  (**Note:** You actually have access to this `request` object in your
+  controllers as well. Within a controller action, `request.session == session`
+  will return `true`. [Read more here.][request])
 
   Awesome - you've now set up the basic infrastructure needed for Action Cable!
   Next, you'll build some channels and subscriptions on top of this
   infrastructure to make the app come to life!
 
-  [request]: https://guides.rubyonrails.org/action_controller_overview.html#the-request-object
+[request]: https://guides.rubyonrails.org/action_controller_overview.html#the-request-object
 
 ## Live Chat
 
