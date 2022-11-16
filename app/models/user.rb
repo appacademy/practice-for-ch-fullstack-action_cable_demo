@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   validates :username, :session_token, presence: true, uniqueness: true
 
-  has_many :messages, foreign_key: :author_id
-  has_many :owned_rooms, foreign_key: :owner_id, class_name: :Room
+  has_many :messages, foreign_key: :author_id, inverse_of: :author
+  has_many :owned_rooms, foreign_key: :owner_id, class_name: :Room, inverse_of: :owner
   has_many :mentions
   has_secure_password
 

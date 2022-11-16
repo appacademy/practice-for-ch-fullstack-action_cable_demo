@@ -2,11 +2,11 @@ class Api::RoomsController < ApplicationController
   before_action :require_logged_in, except: [:index]
 
   def index
-    @rooms = Room.all
+    @rooms = Room.includes(:owner).all
   end
 
   def show
-    @room = Room.find(params[:id])
+    @room = Room.includes(messages: [:author, :mentioned_users]).find(params[:id])
     # Your code here
   end
 
@@ -23,6 +23,7 @@ class Api::RoomsController < ApplicationController
   def destroy
     @room = Room.find(params[:id])
     @room.destroy
+    # Your code here
     render json: nil, status: :ok
   end
 

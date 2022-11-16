@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  get '/:path', to: 'static_pages#root', constraints: { path: /(?!api).*/ }
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  # Defines the root path route ("/")
+  # root "articles#index"
+  
   namespace :api, defaults: { format: :json } do
     resources :users, only: [:create] do
       collection do
         post 'login'
         delete 'logout'
+        get 'restore_user'
       end
     end
     
@@ -17,4 +20,6 @@ Rails.application.routes.draw do
     resources :rooms, only: [:index, :show, :create, :destroy]
     resources :messages, only: [:create, :destroy]
   end
+
+  get '*path', to: "static_pages#frontend_index"
 end

@@ -12,7 +12,7 @@ class Api::UsersController < ApplicationController
   end
 
   def login
-    if @user = User.find_by_credentials(user_params.to_h.to_options)
+    if @user = User.find_by_credentials(**user_params.to_h.to_options)
       _login(@user)
       render :show
     else
@@ -22,8 +22,13 @@ class Api::UsersController < ApplicationController
 
   def logout
     @current_user.update!(session_token: SecureRandom.base64)
+    @current_user = nil
     session[:session_token] = nil
     render json: nil, status: :ok
+  end
+
+  def restore_user
+    render json: @current_user
   end
 
   private

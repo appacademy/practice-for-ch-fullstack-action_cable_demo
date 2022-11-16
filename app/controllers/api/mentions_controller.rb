@@ -4,7 +4,7 @@ class Api::MentionsController < ApplicationController
   def index
     @mentions = current_user.mentions
       .where(read: false)
-      .includes(message: [:author])
+      .includes(message: [:author, :mentioned_users])
   end
 
   def read
