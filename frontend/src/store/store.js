@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
 import { messagesReducer } from './messages';
 import { roomsReducer } from './rooms';
 import { usersReducer, currentUserIdReducer } from './users';
@@ -24,6 +23,7 @@ const configureStore = () => {
   if (process.env.NODE_ENV === 'production') {
     enhancer = applyMiddleware(thunk);
   } else {
+    const createLogger = require('redux-logger').createLogger;
     const logger = createLogger({
       collapsed: (_, __, logEntry) => !logEntry.error,
     });
