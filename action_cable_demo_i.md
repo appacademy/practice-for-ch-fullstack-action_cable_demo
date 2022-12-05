@@ -1,12 +1,12 @@
 # Action Cable Demo: Part I
 
+[Live Demo]
+
 In this demo, you will create a chat app. Logged in users can create chat rooms
 and post messages in these rooms. Users can also send an emoji reaction, which
 will appear next to their username in the list of users in the room. Messages
 can mention other users by including `@<username>`, and users can view messages
 that mention them via a dropdown in the navbar.
-
-Check out the live demo [here][live-demo].
 
 Start by downloading the demo starter. Follow the typical setup routine: in the
 root directory, run `bundle install`, `rails db:setup`, and `rails s` to start
@@ -64,7 +64,7 @@ Some notes:
   camelCase because of the `Jbuilder.key_format camelize: :lower` line added to
   __config/environment.rb__.
 
-[live-demo]: https://aa-action-cable-demo.herokuapp.com/
+[Live Demo]: https://aa-action-cable-demo.herokuapp.com/
 
 ## General Action Cable setup
 

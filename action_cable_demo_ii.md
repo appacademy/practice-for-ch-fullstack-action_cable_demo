@@ -1,8 +1,12 @@
 # Action Cable Demo: Part II
 
+[Live Demo]
+
 The next two features explore some more advanced ways of using Action Cable:
 broadcasting from channels, persisting data in connection instances, and sending
 messages from a subscriber to a channel.
+
+[Live Demo]: https://aa-action-cable-demo.herokuapp.com/
 
 ## Showing `User`s in a `Room`
 
