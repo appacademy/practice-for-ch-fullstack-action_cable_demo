@@ -28,7 +28,7 @@ class Api::UsersController < ApplicationController
   end
 
   def restore_user
-    render json: @current_user
+    render json: current_user
   end
 
   private
