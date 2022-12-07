@@ -26,6 +26,13 @@ export const receiveCurrentUser = user => {
   };
 };
 
+export const removeCurrentUser = id => {
+  return {
+    type: REMOVE_CURRENT_USER,
+    id
+  };
+};
+
 export const storeCurrentUser = user => {
   if (user) localStorage.setItem("currentUser", JSON.stringify(user));
   else localStorage.removeItem("currentUser");
@@ -33,8 +40,12 @@ export const storeCurrentUser = user => {
 
 const startSession = (user, dispatch) => {
   storeCurrentUser(user);
-  dispatch(receiveCurrentUser(user));
-  return dispatch(receiveUser(user));
+  return dispatch(receiveCurrentUser(user));
+};
+
+export const endSession = (currentUserId, dispatch) => {
+  storeCurrentUser(null);
+  return dispatch(removeCurrentUser(currentUserId));
 };
 
 export const signup = user => dispatch => {
@@ -58,12 +69,13 @@ export const login = user => dispatch => {
 export const logout = () => (dispatch, getState) => {
   return csrfApiFetch('users/logout', {
     method: 'DELETE'
-  }).then(() => {
-    storeCurrentUser(null);
-    return dispatch({
-      type: REMOVE_CURRENT_USER,
-      id: getState().currentUserId
-    });
+  }).then(
+    () => endSession(getState().currentUserId, dispatch)
+  ).catch(error => {
+    // If localStorage has a currentUser but the backend does not, logout on the 
+    // frontend. This can happen, e.g., if the db is reseeded and the server
+    // restarted. 401 === unauthorized/unauthenticated
+    if (error.status === 401) return endSession(getState().currentUserId, dispatch)
   });
 };
 

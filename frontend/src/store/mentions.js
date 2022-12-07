@@ -1,6 +1,6 @@
 import csrfApiFetch from './csrf';
 import { receiveMessages } from './messages';
-import { receiveUsers } from './users';
+import { receiveUsers, endSession } from './users';
 
 const RECEIVE_MENTION = 'RECEIVE_MENTION';
 const RECEIVE_MENTIONS = 'RECEIVE_MENTIONS';
@@ -21,7 +21,7 @@ export const removeMention = mentionId => {
   };
 };
 
-export const fetchMentions = () => dispatch => {
+export const fetchMentions = () => (dispatch, getState) => {
   return csrfApiFetch('mentions').then(({ mentions, messages, users }) => {
     dispatch({
       type: RECEIVE_MENTIONS,
@@ -29,6 +29,11 @@ export const fetchMentions = () => dispatch => {
     });
     dispatch(receiveMessages(messages));
     dispatch(receiveUsers(users));
+  }).catch(error => {
+    // If localStorage has a currentUser but the backend does not, logout on the 
+    // frontend. This can happen, e.g., if the db is reseeded and the server
+    // restarted. 401 === unauthorized/unauthenticated
+    if (error.status === 401) return endSession(getState().currentUserId, dispatch)
   });
 };
 
